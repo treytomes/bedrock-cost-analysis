@@ -1,0 +1,27 @@
+# Bedrock Live Cost Monitor Configuration
+
+# AWS Settings
+aws:
+  profile: branch-dev
+  region: us-east-1
+  log_group_name: /aws/bedrock/model-invocation-logs
+
+# Pricing Settings
+pricing:
+  # The URL to the AWS Price List JSON for Bedrock
+  url: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
+  # Local file to cache pricing data
+  cache_file: prices_cache.json
+  # How often to refresh the cache (in hours)
+  refresh_hours: 24
+
+# Database Settings
+database:
+  file: bedrock_costs.db
+
+# Display Settings
+display:
+  # Show only the last N invocations in the live table
+  live_table_limit: 10
+  # Refresh rate for the dashboard (in seconds)
+  refresh_interval: 2.0
