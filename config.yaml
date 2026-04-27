@@ -1,23 +1,22 @@
 # Bedrock Live Cost Monitor Configuration
+# Sensitive/environment-specific values are loaded from .env (see .env.example)
 
 # AWS Settings
 aws:
-  profile: branch-dev
-  region: us-east-1
-  log_group_name: /aws/bedrock/model-invocation-logs
+  profile: ${AWS_PROFILE}
+  region: ${AWS_REGION}
+  log_group_name: ${AWS_LOG_GROUP_NAME}
 
 # Pricing Settings
 pricing:
-  # The URL to the AWS Price List JSON for Bedrock
-  url: https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/index.json
-  # Local file to cache pricing data
-  cache_file: prices_cache.json
+  url: ${PRICING_URL}
+  cache_file: ${PRICING_CACHE_FILE}
   # How often to refresh the cache (in hours)
   refresh_hours: 24
 
 # Database Settings
 database:
-  file: bedrock_costs.db
+  file: ${DATABASE_FILE}
 
 # Display Settings
 display:

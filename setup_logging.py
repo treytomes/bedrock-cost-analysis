@@ -14,15 +14,19 @@ Defaults are read from config.yaml if not provided.
 """
 import argparse
 import json
+import os
 import sys
 import time
 
 import boto3
 import yaml
 from botocore.exceptions import ClientError
+from dotenv import load_dotenv
 
-ROLE_NAME = "BedrockInvocationLoggingRole"
-POLICY_NAME = "BedrockInvocationLoggingPolicy"
+load_dotenv()
+
+ROLE_NAME = os.getenv("IAM_ROLE_NAME", "BedrockInvocationLoggingRole")
+POLICY_NAME = os.getenv("IAM_POLICY_NAME", "BedrockInvocationLoggingPolicy")
 
 
 def load_config(path="config.yaml"):

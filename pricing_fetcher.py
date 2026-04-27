@@ -44,6 +44,7 @@ def _static_price(model_id: str) -> dict | None:
     normalized = _normalize_model_id(model_id)
     for key, prices in _STATIC_PRICES.items():
         if key in normalized:
+            logging.debug(f"Using static price for model '{model_id}' (matched key '{key}')")
             return prices
     return None
 
@@ -73,7 +74,6 @@ class PricingFetcher:
             logging.info(f"Loaded {len(self.prices)} models from cache.")
             return self.prices
 
-        # Task 10: Retry logic for network calls
         max_retries = 3
         backoff = 1
         
@@ -84,9 +84,11 @@ class PricingFetcher:
                 response.raise_for_status()
                 raw_data = response.json()
                 self.prices = self._parse_pricing(raw_data)
-                
-                with open(self.cache_file, 'w') as f:
+
+                tmp_path = self.cache_file + ".tmp"
+                with open(tmp_path, 'w') as f:
                     json.dump(self.prices, f, indent=2)
+                os.replace(tmp_path, self.cache_file)
                 
                 logging.info(f"Successfully fetched and parsed {len(self.prices)} models.")
                 return self.prices

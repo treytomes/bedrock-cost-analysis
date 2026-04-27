@@ -1,5 +1,4 @@
 import sqlite3
-import os
 
 class Database:
     def __init__(self, db_file):
@@ -24,7 +23,6 @@ class Database:
                     cost_usd REAL
                 )
             """)
-            # Task 11: Add indexes for performance
             conn.execute("CREATE INDEX IF NOT EXISTS idx_timestamp ON invocations (timestamp)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_identity_arn ON invocations (identity_arn)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_model_id ON invocations (model_id)")
@@ -32,7 +30,6 @@ class Database:
 
     def insert_invocation(self, invocation_data):
         with self._get_connection() as conn:
-            # Task 7: cost_usd can be None if unpriceable
             cost = invocation_data.get('costUsd')
             
             conn.execute("""
