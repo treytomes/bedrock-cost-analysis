@@ -19,9 +19,10 @@ dependencies = [
 [project.scripts]
 bedrock-monitor = "bedrock_monitor.main:main"
 bedrock-monitor-setup = "bedrock_monitor.setup_logging:main"
+bedrock-monitor-init = "bedrock_monitor.init:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-bedrock_monitor = ["../../config.yaml", "../../.env.example"]
+"bedrock_monitor.data" = ["config.yaml", ".env.example"]

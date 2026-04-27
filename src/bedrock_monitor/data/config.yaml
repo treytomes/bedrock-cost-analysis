@@ -1,0 +1,26 @@
+# Bedrock Live Cost Monitor Configuration
+# Sensitive/environment-specific values are loaded from .env (see .env.example)
+
+# AWS Settings
+aws:
+  profile: ${AWS_PROFILE}
+  region: ${AWS_REGION}
+  log_group_name: ${AWS_LOG_GROUP_NAME}
+
+# Pricing Settings
+pricing:
+  url: ${PRICING_URL}
+  cache_file: ${PRICING_CACHE_FILE}
+  # How often to refresh the cache (in hours)
+  refresh_hours: 24
+
+# Database Settings
+database:
+  file: ${DATABASE_FILE}
+
+# Display Settings
+display:
+  # Show only the last N invocations in the live table
+  live_table_limit: 10
+  # Refresh rate for the dashboard (in seconds)
+  refresh_interval: 2.0

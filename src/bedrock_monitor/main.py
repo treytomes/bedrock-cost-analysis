@@ -1,3 +1,4 @@
+import importlib.resources
 import signal
 import time
 import yaml
@@ -12,10 +13,10 @@ from rich.live import Live
 from rich.panel import Panel
 from rich.layout import Layout
 
-from pricing_fetcher import PricingFetcher
-from log_monitor import LogMonitor
-from database import Database
-from cost_engine import CostEngine
+from bedrock_monitor.pricing_fetcher import PricingFetcher
+from bedrock_monitor.log_monitor import LogMonitor
+from bedrock_monitor.database import Database
+from bedrock_monitor.cost_engine import CostEngine
 
 load_dotenv()
 
@@ -29,7 +30,16 @@ logging.basicConfig(
     ]
 )
 
-def load_config(path='config.yaml'):
+def _bundled_config_path():
+    ref = importlib.resources.files("bedrock_monitor.data").joinpath("config.yaml")
+    return importlib.resources.as_file(ref)
+
+
+def load_config(path=None):
+    if path is None and not os.path.exists('config.yaml'):
+        print("No config.yaml found in current directory.")
+        print("Run 'bedrock-monitor-init' to create one, then edit .env with your AWS_PROFILE.")
+        sys.exit(1)
     try:
         with open(path, 'r') as f:
             raw = os.path.expandvars(f.read())
