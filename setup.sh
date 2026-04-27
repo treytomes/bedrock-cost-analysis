@@ -30,9 +30,10 @@ if [[ ! -d "$VENV_DIR" ]]; then
 fi
 source "$VENV_DIR/bin/activate"
 
-# 3. Install dependencies
+# 3. Install package and dependencies
 echo "Installing dependencies..."
 pip install -q -r requirements.txt
+pip install -q -e .
 
 # 4. Create .env if absent
 if [[ ! -f ".env" ]]; then
