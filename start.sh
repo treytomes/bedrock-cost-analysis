@@ -1,2 +1,2 @@
 source .venv/bin/activate
-python main.py
+python -m bedrock_monitor.main
