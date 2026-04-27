@@ -30,8 +30,12 @@ POLICY_NAME = os.getenv("IAM_POLICY_NAME", "BedrockInvocationLoggingPolicy")
 
 
 def load_config(path="config.yaml"):
+    if not os.path.exists(path):
+        print(f"Error: config file not found at '{path}'")
+        print("Run 'bedrock-monitor-init' first to create config.yaml and .env.example.")
+        sys.exit(1)
     with open(path) as f:
-        return yaml.safe_load(f)
+        return yaml.safe_load(os.path.expandvars(f.read()))
 
 
 def get_account_id(session):
@@ -176,7 +180,7 @@ def main():
 
     print()
     print("Done. Bedrock will now log invocations to CloudWatch.")
-    print(f"Run the cost monitor with: python main.py")
+    print("Run the cost monitor with: bedrock-monitor")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-import importlib.resources
 import signal
 import time
 import yaml
@@ -30,16 +29,14 @@ logging.basicConfig(
     ]
 )
 
-def _bundled_config_path():
-    ref = importlib.resources.files("bedrock_monitor.data").joinpath("config.yaml")
-    return importlib.resources.as_file(ref)
-
-
 def load_config(path=None):
-    if path is None and not os.path.exists('config.yaml'):
-        print("No config.yaml found in current directory.")
-        print("Run 'bedrock-monitor-init' to create one, then edit .env with your AWS_PROFILE.")
-        sys.exit(1)
+    if path is None:
+        if os.path.exists('config.yaml'):
+            path = 'config.yaml'
+        else:
+            print("No config.yaml found in current directory.")
+            print("Run 'bedrock-monitor-init' to create one, then edit .env with your AWS_PROFILE.")
+            sys.exit(1)
     try:
         with open(path, 'r') as f:
             raw = os.path.expandvars(f.read())
